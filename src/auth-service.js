@@ -1,5 +1,5 @@
 import createAuth0Client from "@auth0/auth0-spa-js";
-import { user, isAuthenticated, popUpOpen, token } from "./store";
+import { user, isAuthenticated, popUpOpen, token, errorMsg } from "./store";
 import config from "./auth-config";
 
 async function createClient() {
@@ -17,8 +17,9 @@ async function loginWithPopUp(client, options) {
     const accessToken = await client.getIdTokenClaims();
     token.set(accessToken.__raw);
     isAuthenticated.set(true);
-  } catch (e) {
-    console.error(e);
+    errorMsg.set("");
+  } catch (err) {
+    errorMsg.set(`Error -> ${err}`);
   } finally {
     popUpOpen.set(false);
   }

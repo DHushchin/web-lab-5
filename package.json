@@ -1,5 +1,5 @@
 {
-  "name": "HasuraLabs",
+  "name": "hasura-lab-5",
   "version": "1.0.0",
   "description": "This directory is a brief example of a [Svelte](https://svelte.dev/) site that can be deployed with Vercel and zero-configuration. If you need to use API Routes, we recommend using our [SvelteKit example](https://github.com/vercel/vercel/tree/main/examples/sveltekit).",
   "main": "rollup.config.js",
@@ -31,7 +31,8 @@
     "@auth0/auth0-spa-js": "^1.19.3",
     "dotenv": "^10.0.0",
     "graphql": "^16.2.0",
-    "rollup-plugin-replace": "^2.2.0"
+    "rollup-plugin-replace": "^2.2.0",
+    "svelte-loading-spinners": "^0.1.7"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
