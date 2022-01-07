@@ -48,7 +48,7 @@
       user.set(await auth0Client.getUser());
     });
   } catch (err) {
-    console.error(err);
+    errorMsg.set(`Error -> ${err}`);
   }
 
   function login() {
