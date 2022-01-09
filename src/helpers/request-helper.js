@@ -1,6 +1,7 @@
 import { token, errorMsg } from "../store";
 import { get } from "svelte/store";
 import config from "../auth-config";
+import { FragmentsOnCompositeTypesRule } from "graphql";
 
 class RequestHelper {
   constructor() {
@@ -31,7 +32,7 @@ class RequestHelper {
     const { errors, data } = await this.fetchMyQuery(operationsDoc);
 
     if (errors) {
-      errorMsg.set(`Error -> ${errors}`);
+      throw errors[0].message;
     }
 
     return data;
@@ -48,7 +49,8 @@ class RequestHelper {
     );
 
     if (errors) {
-      errorMsg.set(`Error -> ${errors}`);
+      console.log(errors);
+      throw errors[0].message;
     }
 
     return data;

@@ -3,45 +3,40 @@ export default class OperationDocsHelper {
     return `
     query MyQuery {
       lab5_music {
-        id
-        name
         author
         genre
-        user_id
+        id
+        name
       }
     }
   `;
   }
 
-  static MUTATION_INSERT_ONE(name, author, genre) {
+  static MUTATION_INSERT() {
     return `
-    mutation MyMutation {
-    insert_lab5_music(objects: {name: "${name}", author: "${author}", genre: "${genre}"}) {
-      returning {
-        id
-        name
+    mutation MyMutation($author: String, $genre: String, $name: String) {
+      insert_lab5_music_one(object: {name: $name, genre: $genre, author: $author}) {
         author
         genre
-        user_id
+        id
+        name
       }
     }
-   }
   `;
   }
 
   static MUTATION_DELETE() {
     return `
-    mutation MyMutation($name: String, $author: String) {
-    delete_lab5_music(where: {name: {_eq: $name}, _and: {author: {_eq: $author}}}) {
-      returning {
-        id
-        name
-        author
-        genre
-        user_id
+    mutation MyMutation($id: Int) {
+      delete_lab5_music(where: {id: {_eq: $id}}) {
+        returning {
+          name
+          id
+          genre
+          author
+        }
       }
     }
-  }
   `;
   }
 }
