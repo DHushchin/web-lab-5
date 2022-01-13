@@ -5,7 +5,6 @@ export default class OperationDocsHelper {
       lab5_music {
         author
         genre
-        id
         name
       }
     }
@@ -18,7 +17,6 @@ export default class OperationDocsHelper {
       insert_lab5_music_one(object: {name: $name, genre: $genre, author: $author}) {
         author
         genre
-        id
         name
       }
     }
@@ -31,7 +29,6 @@ export default class OperationDocsHelper {
       delete_lab5_music(where: {id: {_eq: $id}}) {
         returning {
           name
-          id
           genre
           author
         }

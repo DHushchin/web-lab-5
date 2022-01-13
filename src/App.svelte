@@ -59,13 +59,6 @@
     return isNaN(+string) ? 0 : +string;
   };
 
-  const clearFields = () => {
-    for (const field of document.querySelectorAll("input")) {
-      field.value = "";
-    }
-    for (var member in tableInfo) delete tableInfo[member];
-  };
-
   function changeFlag(disable, msg = "") {
     if (disable) {
       $spinnersAmount++;
@@ -106,39 +99,26 @@
     } catch (err) {
       addDisableFlag = changeFlag(false, `Error -> ${err}`);
       return;
+    } finally {
+      for (var member in tableInfo) tableInfo[member] = "";
     }
 
-    clearFields();
     addDisableFlag = changeFlag(false, " ");
   };
 
-  const deleteSong = async () => {
+  const deleteSong = async (removeId) => {
     deleteDisableFlag = changeFlag(true);
-
-    if (tableInfo.name || tableInfo.author || tableInfo.genre) {
-      deleteDisableFlag = changeFlag(
-        false,
-        "All fields except for ID should be empty!",
-      );
-      return;
-    }
-
-    if (!tableInfo.id) {
-      deleteDisableFlag = changeFlag(false, "ID field is empty!");
-      return;
-    }
-
     try {
       await http.startExecuteMyMutation(OperationDocsHelper.MUTATION_DELETE(), {
-        id: stringToNumber(tableInfo.id),
+        id: removeId,
       });
-
       music.update((n) => n.filter((song) => song.id != tableInfo.id));
     } catch (err) {
       deleteDisableFlag = changeFlag(false, `Error -> ${err}`);
       return;
+    } finally {
+      for (var member in tableInfo) tableInfo[member] = "";
     }
-    clearFields();
     deleteDisableFlag = changeFlag(false, " ");
   };
 </script>
@@ -169,17 +149,21 @@
           <table border="2">
             <caption><h1>Your playlist!</h1></caption>
             <tr>
-              <th>ID</th>
               <th>Name</th>
               <th>Author</th>
               <th>Genre</th>
             </tr>
             {#each $music as song (song.id)}
               <tr>
-                <td>{song.id}</td>
                 <td>{song.name}</td>
                 <td>{song.author}</td>
                 <td>{song.genre}</td>
+                <td>
+                  <button
+                    on:click={() => deleteSong(song.id)}
+                    disabled={deleteDisableFlag}>Delete song</button
+                  >
+                </td>
               </tr>
             {/each}
           </table>
