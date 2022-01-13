@@ -100,7 +100,7 @@
       addDisableFlag = changeFlag(false, `Error -> ${err}`);
       return;
     } finally {
-      for (var member in tableInfo) tableInfo[member] = "";
+      for (let member in tableInfo) tableInfo[member] = "";
     }
 
     addDisableFlag = changeFlag(false, " ");
@@ -112,12 +112,12 @@
       await http.startExecuteMyMutation(OperationDocsHelper.MUTATION_DELETE(), {
         id: removeId,
       });
-      music.update((n) => n.filter((song) => song.id != tableInfo.id));
+      music.update((n) => n.filter((song) => song.id != removeId));
     } catch (err) {
       deleteDisableFlag = changeFlag(false, `Error -> ${err}`);
       return;
     } finally {
-      for (var member in tableInfo) tableInfo[member] = "";
+      for (let member in tableInfo) tableInfo[member] = "";
     }
     deleteDisableFlag = changeFlag(false, " ");
   };
@@ -133,16 +133,12 @@
         <div>Error! Something went wrong...</div>
       {:else if $music}
         <div>
-          <input bind:value={tableInfo.id} placeholder="ID" />
           <input bind:value={tableInfo.name} placeholder="Name" />
           <input bind:value={tableInfo.author} placeholder="Author" />
           <input bind:value={tableInfo.genre} placeholder="Genre" />
         </div>
         <div>
           <button on:click={addSong} disabled={addDisableFlag}>Add song</button>
-          <button on:click={deleteSong} disabled={deleteDisableFlag}
-            >Delete song</button
-          >
           <button on:click={logout}>Log out</button>
         </div>
         {#if $music.length}

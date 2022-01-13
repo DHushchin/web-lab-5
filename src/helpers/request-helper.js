@@ -49,7 +49,6 @@ class RequestHelper {
     );
 
     if (errors) {
-      console.log(errors);
       throw errors[0].message;
     }
 

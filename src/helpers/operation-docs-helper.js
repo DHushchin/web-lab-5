@@ -6,6 +6,7 @@ export default class OperationDocsHelper {
         author
         genre
         name
+        id
       }
     }
   `;
@@ -18,6 +19,7 @@ export default class OperationDocsHelper {
         author
         genre
         name
+        id
       }
     }
   `;
@@ -28,9 +30,10 @@ export default class OperationDocsHelper {
     mutation MyMutation($id: Int) {
       delete_lab5_music(where: {id: {_eq: $id}}) {
         returning {
-          name
-          genre
           author
+          genre
+          id
+          name
         }
       }
     }
