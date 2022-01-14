@@ -15,7 +15,8 @@
 
   let addDisableFlag = false,
     deleteDisableFlag = false,
-    auth0Client;
+    auth0Client,
+    form;
   const tableInfo = {};
 
   token.subscribe(async (tokenValue) => {
@@ -55,16 +56,8 @@
     auth.logout(auth0Client);
   }
 
-  const stringToNumber = (string) => {
-    return isNaN(+string) ? 0 : +string;
-  };
-
   function changeFlag(disable, msg = "") {
-    if (disable) {
-      $spinnersAmount++;
-    } else {
-      $spinnersAmount--;
-    }
+    disable ? $spinnersAmount++ : $spinnersAmount--;
 
     if (msg) {
       $errorMsg = msg;
@@ -98,9 +91,8 @@
       music.update((n) => [...n, insert_lab5_music_one]);
     } catch (err) {
       addDisableFlag = changeFlag(false, `Error -> ${err}`);
-      return;
     } finally {
-      for (let member in tableInfo) tableInfo[member] = "";
+      form.reset();
     }
 
     addDisableFlag = changeFlag(false, " ");
@@ -115,9 +107,8 @@
       music.update((n) => n.filter((song) => song.id != removeId));
     } catch (err) {
       deleteDisableFlag = changeFlag(false, `Error -> ${err}`);
-      return;
     } finally {
-      for (let member in tableInfo) tableInfo[member] = "";
+      form.reset();
     }
     deleteDisableFlag = changeFlag(false, " ");
   };
@@ -132,16 +123,16 @@
       {:else if $music.error}
         <div>Error! Something went wrong...</div>
       {:else if $music}
-        <div>
+        <form bind:this={form}>
           <input bind:value={tableInfo.name} placeholder="Name" />
           <input bind:value={tableInfo.author} placeholder="Author" />
           <input bind:value={tableInfo.genre} placeholder="Genre" />
-        </div>
+        </form>
         <div>
           <button on:click={addSong} disabled={addDisableFlag}>Add song</button>
           <button on:click={logout}>Log out</button>
         </div>
-        {#if $music.length}
+        {#if $music?.length}
           <table border="2">
             <caption><h1>Your playlist!</h1></caption>
             <tr>
